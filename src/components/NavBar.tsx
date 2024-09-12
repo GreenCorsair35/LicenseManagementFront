@@ -51,7 +51,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            DC/RD
+            DCRD
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -86,7 +86,11 @@ function ResponsiveAppBar() {
                   <Typography
                     component="a"
                     href={page.menuLink}
-                    sx={{ textAlign: "center", textDecoration: "none" }}
+                    sx={{
+                      textAlign: "center",
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
                   >
                     {page.menuName}
                   </Typography>
@@ -124,18 +128,36 @@ function ResponsiveAppBar() {
                   my: 2,
                   color: "white",
                   display: "block",
+                  textDecoration: "none",
                 }}
               >
                 <Typography
                   component="a"
                   href={page.menuLink}
-                  sx={{ textAlign: "center", textDecoration: "none" }}
+                  sx={{
+                    textAlign: "center",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
                 >
                   {page.menuName}
                 </Typography>
               </Button>
             ))}
           </Box>
+          <Button color="inherit">
+            <Typography
+              component="a"
+              href="/logout"
+              sx={{
+                textAlign: "center",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              Logout
+            </Typography>
+          </Button>
         </Toolbar>
       </Container>
     </AppBar>
