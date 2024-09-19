@@ -7,11 +7,11 @@ import { Box, TextField, Typography, Button } from "@mui/material";
 const ViewRequest = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState("");
   const [usageReason, setUsageReason] = useState("");
-  const [license, setLicense] = useState("");
-  const [employee, setEmployee] = useState("");
+  const [product, setProduct] = useState("");
+  const [newProduct, setNewProduct] = useState("");
   const [status, setStatus] = useState("");
+  const [orientation, setOrientation] = useState("");
 
   const { id } = useParams<{ id: string }>();
 
@@ -23,15 +23,11 @@ const ViewRequest = () => {
     api
       .get(`/licensemanagementapi/requests/${id}/`)
       .then((res) => {
-        setUser(res.data.owner.username ? res.data.owner.username : "");
-        setUsageReason(res.data.usage_reason ? res.data.usage_reason : "");
-        setLicense(res.data.license ? res.data.license.license_key : "");
-        setEmployee(
-          res.data.employee
-            ? res.data.employee.last_name + " " + res.data.employee.first_name
-            : ""
-        );
-        setStatus(res.data.status_display ? res.data.status_display : "");
+        setUsageReason(res.data.usage_reason ? res.data.usage_reason : "N/A");
+        setProduct(res.data.product ? res.data.product_display : "N/A");
+        setNewProduct(res.data.new_product ? res.data.new_product : "N/A");
+        setStatus(res.data.status_display ? res.data.status_display : "N/A");
+        setOrientation(res.data.orientation ? res.data.orientation : "N/A");
       })
       .catch((error) => alert(error));
   };
@@ -63,10 +59,10 @@ const ViewRequest = () => {
         </Typography>
         <TextField
           type="text"
-          id="user"
-          label="User"
+          id="product"
+          label="Product"
           required
-          value={user}
+          value={product}
           InputProps={{
             readOnly: true,
           }}
@@ -74,21 +70,10 @@ const ViewRequest = () => {
         />
         <TextField
           type="text"
-          id="license"
-          label="License"
+          id="new_product"
+          label="New Product"
           required
-          value={license}
-          InputProps={{
-            readOnly: true,
-          }}
-          fullWidth
-        />
-        <TextField
-          type="text"
-          id="employee"
-          label="Employee"
-          required
-          value={employee}
+          value={newProduct}
           InputProps={{
             readOnly: true,
           }}
@@ -113,6 +98,19 @@ const ViewRequest = () => {
           label="Status"
           required
           value={status}
+          InputProps={{
+            readOnly: true,
+          }}
+          fullWidth
+        />
+        <TextField
+          type="text"
+          id="orientation"
+          label="Orientation"
+          required
+          value={orientation}
+          multiline
+          rows={4}
           InputProps={{
             readOnly: true,
           }}

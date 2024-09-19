@@ -41,19 +41,19 @@ function App() {
         />
 
         <Route
-          path="/view-request/:id"
+          path="/update-request/:id"
           element={
             <ProtectedRoute>
-              <ViewRequest />
+              <UpdateRequest />
             </ProtectedRoute>
           }
         />
 
         <Route
-          path="/update-request/:id"
+          path="/view-request/:id"
           element={
             <ProtectedRoute>
-              <UpdateRequest />
+              <ViewRequest />
             </ProtectedRoute>
           }
         />

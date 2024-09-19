@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 import NavBar from "./NavBar";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIosNew from "@mui/icons-material/ArrowBackIosNew";
 import {
   Box,
   TextField,
+  Autocomplete,
   Alert,
   AlertTitle,
   IconButton,
@@ -18,20 +21,32 @@ interface ResultObject {
   [key: string]: string[] | string; // Each field can have an array of strings or a single string
 }
 
+interface productObject {
+  product_id: Number;
+  product_name: string;
+  version: string;
+  vendor: string;
+  description: string;
+}
+
 // Define allowed severity types
 type AlertSeverity = "error" | "warning" | "info" | "success";
 
 const CreateRequest = () => {
-  const [user, setUser] = useState("");
+  const navigate = useNavigate();
+
+  const [product, setProduct] = useState<productObject | null>(null);
+  const [newProduct, setNewProduct] = useState("");
   const [usageReason, setUsageReason] = useState("");
-  const [license, setLicense] = useState("");
-  const [employee, setEmployee] = useState("");
-  const [status, setStatus] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ResultObject>({});
   const [show, setShow] = useState(false);
   const [severity, setSeverity] = useState<AlertSeverity>("info");
+
+  const [open, setOpen] = useState(false);
+  const [loadingCB, setLoadingCB] = useState(false);
+  const [options, setOptions] = useState([]);
 
   // Automatically close the alert after 5 seconds
   useEffect(() => {
@@ -41,6 +56,30 @@ const CreateRequest = () => {
     return () => clearTimeout(timer); // Clear timeout if component unmounts or if alert is closed manually
   }, []);
 
+  // Fetch products from server
+  const fetchProducts = async () => {
+    setLoadingCB(true);
+
+    await api
+      .get("/licensemanagementapi/products/?limit=10000")
+      .then((res) => {
+        setOptions(res.data.results);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch products:", error);
+      })
+      .finally(() => {
+        setLoadingCB(false);
+      });
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+    if (options.length === 0) {
+      fetchProducts();
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setLoading(true);
     e.preventDefault();
@@ -48,10 +87,9 @@ const CreateRequest = () => {
 
     api
       .post("/licensemanagementapi/requests/", {
+        product: product ? product.product_id : null,
+        new_product: newProduct,
         usage_reason: usageReason,
-        license: license,
-        employee: employee,
-        status: status,
       })
       .then((res: any) => {
         if (res.status === 201) {
@@ -64,6 +102,7 @@ const CreateRequest = () => {
         setShow(true);
       })
       .catch((error: any) => {
+        console.log(error.response.data);
         setResult(error.response.data);
         setSeverity("error");
         setShow(true);
@@ -71,6 +110,11 @@ const CreateRequest = () => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const goBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigate(-1); // Go back to the previous page
   };
 
   return (
@@ -96,7 +140,7 @@ const CreateRequest = () => {
           <AlertTitle>{severity.toUpperCase()}</AlertTitle>
           <ul>
             {Object.entries(result).map(([field, messages]) => (
-              <li>
+              <li key={field}>
                 {field +
                   " : " +
                   (Array.isArray(messages) ? messages.join(" ") : messages)}
@@ -117,39 +161,54 @@ const CreateRequest = () => {
           alignItems: "center",
           gap: 2,
         }}
-        noValidate
         autoComplete="off"
       >
         <Typography variant="h4" sx={{ mb: 3 }}>
           Create Request
         </Typography>
-        <TextField
-          type="text"
-          id="user"
-          label="User"
-          required
-          onChange={(e) => setUser(e.target.value)}
-          value={user}
+        <Autocomplete
+          value={product}
+          onChange={(event, newValue) => setProduct(newValue)}
+          open={open}
+          onOpen={handleOpen}
+          onClose={() => setOpen(false)}
+          isOptionEqualToValue={(option, value) =>
+            option.product_name === value.product_name
+          }
+          getOptionLabel={(option) => option.product_name}
+          options={options}
+          loading={loadingCB}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Product"
+              required
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {loadingCB ? (
+                      <CircularProgress color="inherit" size={20} />
+                    ) : null}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              }}
+            />
+          )}
           fullWidth
         />
-        <TextField
-          type="text"
-          id="license"
-          label="License"
-          required
-          onChange={(e) => setLicense(e.target.value)}
-          value={license}
-          fullWidth
-        />
-        <TextField
-          type="text"
-          id="employee"
-          label="Employee"
-          required
-          onChange={(e) => setEmployee(e.target.value)}
-          value={employee}
-          fullWidth
-        />
+        {product?.product_id === 8 && (
+          <TextField
+            type="text"
+            id="new_prodct"
+            label="New Product"
+            required
+            onChange={(e) => setNewProduct(e.target.value)}
+            value={newProduct}
+            fullWidth
+          />
+        )}
         <TextField
           type="text"
           id="usage_reason"
@@ -161,24 +220,28 @@ const CreateRequest = () => {
           rows={4}
           fullWidth
         />
-        <TextField
-          type="text"
-          id="status"
-          label="Status"
-          required
-          onChange={(e) => setStatus(e.target.value)}
-          value={status}
-          fullWidth
-        />
         {loading && <CircularProgress />}
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          fullWidth
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: 2,
+            width: "100%",
+          }}
         >
-          Submit
-        </Button>
+          <Button
+            type="submit"
+            variant="outlined"
+            sx={{ mr: 1 }}
+            onClick={(e) => goBack(e)}
+            startIcon={<ArrowBackIosNew />}
+          >
+            Back
+          </Button>
+          <Button type="submit" variant="contained" sx={{ ml: 1 }}>
+            Submit
+          </Button>
+        </Box>
       </Box>
     </>
   );

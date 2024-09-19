@@ -73,7 +73,7 @@ const Request = () => {
     id: number
   ) => {
     event.preventDefault();
-    navigate(`/delete-request/${id}`);
+    navigate(`/update-request/${id}`);
   };
 
   const handleConfirmDelete = async (
@@ -109,25 +109,28 @@ const Request = () => {
   const columns = [
     { field: "usage_reason", headerName: "Usage Reason", minWidth: 250 },
     {
-      field: "license",
-      headerName: "License",
+      field: "product_display",
+      headerName: "Product",
       minWidth: 200,
-      valueGetter: (params: GridRenderCellParams) =>
-        params?.license_key || "N/A",
     },
     {
-      field: "employee",
-      headerName: "Employee",
+      field: "new_product",
+      headerName: "New Product",
       minWidth: 200,
-      valueGetter: (params: GridRenderCellParams<any, string>) =>
-        params ? params.last_name + " " + params.first_name : "N/A",
+      renderCell: (params: GridRenderCellParams) => {
+        return params.value !== null &&
+          params.value !== undefined &&
+          params.value !== ""
+          ? params.value
+          : "N/A";
+      },
     },
     { field: "status_display", headerName: "Status", minWidth: 150 },
     { field: "requested_on", headerName: "Requested On", minWidth: 200 },
     {
       field: "actions",
       headerName: "Actions",
-      width: 150,
+      minWidth: 150,
       renderCell: (params: GridRenderCellParams) => (
         <div>
           <IconButton
@@ -146,14 +149,16 @@ const Request = () => {
           >
             <EditIcon />
           </IconButton>
-          <IconButton
-            color="error"
-            onClick={() => handleDelete(Number(params.id))}
-            aria-label="delete"
-            title="Delete"
-          >
-            <DeleteIcon />
-          </IconButton>
+          {params.row.status === "P" && (
+            <IconButton
+              color="error"
+              onClick={() => handleDelete(Number(params.id))}
+              aria-label="delete"
+              title="Delete"
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
         </div>
       ),
     },
