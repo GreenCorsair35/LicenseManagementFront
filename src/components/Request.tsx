@@ -107,7 +107,11 @@ const Request = () => {
 
   // Define the columns for the DataGrid
   const columns = [
-    { field: "usage_reason", headerName: "Usage Reason", minWidth: 250 },
+    {
+      field: "usage_reason",
+      headerName: "Usage Reason",
+      minWidth: 250,
+    },
     {
       field: "product_display",
       headerName: "Product",
@@ -125,8 +129,16 @@ const Request = () => {
           : "N/A";
       },
     },
-    { field: "status_display", headerName: "Status", minWidth: 150 },
-    { field: "requested_on", headerName: "Requested On", minWidth: 200 },
+    {
+      field: "status_display",
+      headerName: "Status",
+      minWidth: 150,
+    },
+    {
+      field: "requested_on",
+      headerName: "Requested On",
+      minWidth: 200,
+    },
     {
       field: "actions",
       headerName: "Actions",
@@ -190,6 +202,14 @@ const Request = () => {
               paginationMode="server"
               onPaginationModelChange={setPaginationModel}
               loading={loading}
+              sx={{
+                ".MuiDataGrid-columnHeader": {
+                  backgroundColor: "#cfcfcf",
+                },
+                ".MuiDataGrid-columnHeaderTitle": {
+                  fontWeight: "bold",
+                },
+              }}
             />
           </Paper>
         </Box>

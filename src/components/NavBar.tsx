@@ -6,17 +6,16 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import DisplaySettings from "@mui/icons-material/DisplaySettings";
+import logo from "../assets/logo.png";
 
 const pages = [
   { id: 1, menuName: "Requests List", menuLink: "/" },
   { id: 2, menuName: "Request a License", menuLink: "/create-request" },
 ];
 
-function ResponsiveAppBar() {
+function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -30,16 +29,24 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" elevation={0}>
-      <Toolbar>
-        <DisplaySettings sx={{ display: { xs: "none", md: "flex" }, mr: 2 }} />
+    <AppBar position="static" elevation={5}>
+      <Toolbar sx={{ backgroundColor: "#f5821f" }}>
+        <Box
+          component="img"
+          src={logo}
+          alt="Logo"
+          sx={{
+            display: { xs: "none", md: "flex" },
+            height: 40,
+            marginRight: 2,
+          }}
+        />
         <Typography
           variant="h5"
           noWrap
           component="a"
           href="/"
           sx={{
-            mr: 5,
             display: { xs: "none", md: "flex" },
             fontFamily: "monospace",
             fontWeight: 500,
@@ -76,89 +83,87 @@ function ResponsiveAppBar() {
               </Typography>
             </Button>
           ))}
-          <Button color="inherit">
-            <Typography
-              variant="subtitle2"
-              component="a"
-              href="/logout"
-              sx={{
-                textAlign: "center",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Logout
-            </Typography>
-          </Button>
         </Box>
-      </Toolbar>
-    </AppBar>
-  );
-}
 
-export default ResponsiveAppBar;
-
-/*<Typography
+        {/* show menu for small screens */}
+        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <IconButton
+            size="large"
+            aria-label="menu-bars"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            color="inherit"
+            edge="start"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{ display: { xs: "block", md: "none" } }}
+          >
+            {pages.map((page) => (
+              <MenuItem key={page.id} onClick={handleCloseNavMenu}>
+                <Typography
+                  component="a"
+                  href={page.menuLink}
+                  sx={{
+                    textAlign: "center",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  {page.menuName}
+                </Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+        <Typography
           variant="h5"
           noWrap
           component="a"
           href="/"
           sx={{
-            mr: 2,
             display: { xs: "flex", md: "none" },
             flexGrow: 1,
             fontFamily: "monospace",
-            fontWeight: 700,
-            letterSpacing: ".3rem",
+            fontWeight: 500,
             color: "inherit",
             textDecoration: "none",
           }}
         >
-          DCRD
+          DCRD - LICENSES REQUESTS
         </Typography>
-<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-  <IconButton
-    size="large"
-    aria-label="menu-bars"
-    aria-controls="menu-appbar"
-    aria-haspopup="true"
-    onClick={handleOpenNavMenu}
-    color="inherit"
-    edge="start"
-    sx={{ ml: 2 }}
-  >
-    <MenuIcon />
-  </IconButton>
-  <Menu
-    id="menu-appbar"
-    anchorEl={anchorElNav}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "left",
-    }}
-    keepMounted
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "left",
-    }}
-    open={Boolean(anchorElNav)}
-    onClose={handleCloseNavMenu}
-    sx={{ display: { xs: "block", md: "none" } }}
-  >
-    {pages.map((page) => (
-      <MenuItem key={page.id} onClick={handleCloseNavMenu}>
-        <Typography
-          component="a"
-          href={page.menuLink}
-          sx={{
-            textAlign: "center",
-            color: "inherit",
-            textDecoration: "none",
-          }}
-        >
-          {page.menuName}
-        </Typography>
-      </MenuItem>
-    ))}
-  </Menu>
-</Box>;*/
+        <Button color="inherit">
+          <Typography
+            variant="subtitle2"
+            component="a"
+            href="/logout"
+            sx={{
+              textAlign: "center",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            Logout
+          </Typography>
+        </Button>
+      </Toolbar>
+    </AppBar>
+  );
+}
+
+export default NavBar;
