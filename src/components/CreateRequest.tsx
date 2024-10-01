@@ -15,6 +15,7 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 // Define the type for the result object
 interface ResultObject {
@@ -33,6 +34,8 @@ interface productObject {
 type AlertSeverity = "error" | "warning" | "info" | "success";
 
 const CreateRequest = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const [product, setProduct] = useState<productObject | null>(null);
@@ -93,10 +96,10 @@ const CreateRequest = () => {
       })
       .then((res: any) => {
         if (res.status === 201) {
-          setResult({ successful: "Request created!" });
+          setResult({ successful: t("requestCreateSuccess") });
           setSeverity("success");
         } else {
-          setResult({ failure: "failed to create request!" });
+          setResult({ failure: t("requestCreateError") });
           setSeverity("error");
         }
         setShow(true);
@@ -164,7 +167,7 @@ const CreateRequest = () => {
         autoComplete="off"
       >
         <Typography variant="h4" sx={{ mb: 3 }}>
-          Create Request
+          {t("createRequest")}
         </Typography>
         <Autocomplete
           value={product}
@@ -181,7 +184,7 @@ const CreateRequest = () => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Product"
+              label={t("product")}
               required
               InputProps={{
                 ...params.InputProps,
@@ -202,7 +205,7 @@ const CreateRequest = () => {
           <TextField
             type="text"
             id="new_prodct"
-            label="New Product"
+            label={t("newProduct")}
             required
             onChange={(e) => setNewProduct(e.target.value)}
             value={newProduct}
@@ -212,7 +215,7 @@ const CreateRequest = () => {
         <TextField
           type="text"
           id="usage_reason"
-          label="Usage Reason"
+          label={t("usageReason")}
           required
           onChange={(e) => setUsageReason(e.target.value)}
           value={usageReason}
@@ -236,10 +239,10 @@ const CreateRequest = () => {
             onClick={(e) => goBack(e)}
             startIcon={<ArrowBackIosNew />}
           >
-            Back
+            {t("back")}
           </Button>
           <Button type="submit" variant="contained" sx={{ ml: 1 }}>
-            Submit
+            {t("submit")}
           </Button>
         </Box>
       </Box>

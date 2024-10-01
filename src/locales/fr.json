@@ -1,0 +1,41 @@
+{
+  "lang": "Englais",
+  "appTitle": "DCRD - DEMANDES DE LICENCES",
+  "requestsList": "Liste des demandes",
+  "requestALicense": "Demander une licence",
+  "logout": "Déconnexion",
+
+  "usageReason": "Raison d'utilisation",
+  "product": "Produit",
+  "newProduct": "Nouveau Produit",
+  "status": "Statut",
+  "requestedOn": "Demandée le",
+  "actions": "Actions",
+  "view": "Voir",
+  "edit": "Modifier",
+  "delete": "Supprimer",
+  "requests": "DEMANDES",
+  "areYouSure": "Êtes-vous sûr ?",
+  "doYouReally": "Voulez-vous vraiment supprimer cet enregistrement ?",
+  "cancel": "Annuler",
+
+  "viewRequest": "Voir la demande",
+  "orientation": "Orientation",
+  "back": "Retour",
+
+  "requestUpdateImpossible": "Vous ne pouvez pas modifier une demande qui a été traitée (qui n'est pas en attente) !",
+  "requestUpdateSuccess": "Demande modifiée !",
+  "requestUpdateError": "Échec de modification de la demande !",
+  "requestCancelSuccess": "Demande annulée !",
+  "requestCancelError": "Échec de l'annulation de la demande !",
+  "requestCancelImpossible": "Vous ne pouvez pas annuler une demande qui n'est pas en cours !",
+  "updateRequest": "Modifier la demande",
+  "update": "Modifier",
+  "doYouReallyCancel": "Voulez-vous vraiment annuler cette demande ?",
+  "confirm": "Confirmer",
+
+  "requestCreateSuccess": "Demande créée !",
+  "requestCreateError": "Échec de création de la demande !",
+  "createRequest": "Créer une demande",
+  "submit": "Soumettre"
+}

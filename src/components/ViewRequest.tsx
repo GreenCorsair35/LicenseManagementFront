@@ -3,8 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../api";
 import NavBar from "./NavBar";
 import { Box, TextField, Typography, Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const ViewRequest = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const [usageReason, setUsageReason] = useState("");
@@ -55,12 +58,12 @@ const ViewRequest = () => {
         autoComplete="off"
       >
         <Typography variant="h4" sx={{ mb: 3 }}>
-          View Request
+          {t("viewRequest")}
         </Typography>
         <TextField
           type="text"
           id="product"
-          label="Product"
+          label={t("product")}
           required
           value={product}
           InputProps={{
@@ -71,7 +74,7 @@ const ViewRequest = () => {
         <TextField
           type="text"
           id="new_product"
-          label="New Product"
+          label={t("newProduct")}
           required
           value={newProduct}
           InputProps={{
@@ -82,7 +85,7 @@ const ViewRequest = () => {
         <TextField
           type="text"
           id="usage_reason"
-          label="Usage Reason"
+          label={t("usageReason")}
           required
           value={usageReason}
           multiline
@@ -95,7 +98,7 @@ const ViewRequest = () => {
         <TextField
           type="text"
           id="status"
-          label="Status"
+          label={t("status")}
           required
           value={status}
           InputProps={{
@@ -106,7 +109,7 @@ const ViewRequest = () => {
         <TextField
           type="text"
           id="orientation"
-          label="Orientation"
+          label={t("orientation")}
           required
           value={orientation}
           multiline
@@ -123,7 +126,7 @@ const ViewRequest = () => {
           onClick={(e) => goBack(e)}
           fullWidth
         >
-          Back
+          {t("back")}
         </Button>
       </Box>
     </>

@@ -8,14 +8,23 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import logo from "../assets/logo.png";
-
-const pages = [
-  { id: 1, menuName: "Requests List", menuLink: "/" },
-  { id: 2, menuName: "Request a License", menuLink: "/create-request" },
-];
+import { useTranslation } from "react-i18next";
 
 function NavBar() {
+  const { t, i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const newLanguage = i18n.language === "en" ? "fr" : "en";
+    i18n.changeLanguage(newLanguage);
+  };
+
+  const pages = [
+    { id: 1, menuName: t("requestsList"), menuLink: "/" },
+    { id: 2, menuName: t("requestALicense"), menuLink: "/create-request" },
+  ];
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -26,6 +35,16 @@ function NavBar() {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -55,7 +74,7 @@ function NavBar() {
             flexGrow: 1,
           }}
         >
-          DCRD - LICENSES REQUESTS
+          {t("appTitle")}
         </Typography>
         <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
           {pages.map((page) => (
@@ -145,22 +164,66 @@ function NavBar() {
             textDecoration: "none",
           }}
         >
-          DCRD - LICENSES REQUESTS
+          {t("appTitle")}
         </Typography>
-        <Button color="inherit">
-          <Typography
-            variant="subtitle2"
-            component="a"
-            href="/logout"
-            sx={{
-              textAlign: "center",
-              color: "inherit",
-              textDecoration: "none",
-            }}
+
+        <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" }, ml: 2 }}>
+          <IconButton
+            size="large"
+            aria-label="menu-bars"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenuOpen}
+            color="inherit"
+            edge="end"
           >
-            Logout
-          </Typography>
-        </Button>
+            <ExpandMoreIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            id="logout-menu"
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem>
+              <Typography
+                variant="subtitle2"
+                component="a"
+                onClick={() => toggleLanguage()}
+                sx={{
+                  color: "inherit",
+                  textDecoration: "none",
+                  width: "100%",
+                }}
+              >
+                {t("lang")}
+              </Typography>
+            </MenuItem>
+            <MenuItem>
+              <Typography
+                variant="subtitle2"
+                component="a"
+                href="/logout"
+                sx={{
+                  color: "inherit",
+                  textDecoration: "none",
+                  width: "100%",
+                }}
+              >
+                {t("logout")}
+              </Typography>
+            </MenuItem>
+          </Menu>
+        </Box>
       </Toolbar>
     </AppBar>
   );

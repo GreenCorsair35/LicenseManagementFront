@@ -19,8 +19,11 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { frFR, enUS } from "@mui/x-data-grid/locales";
 
 const Request = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false); // A boolean to show/hide delete confirmation dialog
   const [selectedId, setSelectedId] = useState<number | null>(null); // Store the ID of the selected record
@@ -109,17 +112,17 @@ const Request = () => {
   const columns = [
     {
       field: "usage_reason",
-      headerName: "Usage Reason",
+      headerName: t("usageReason"),
       minWidth: 250,
     },
     {
       field: "product_display",
-      headerName: "Product",
+      headerName: t("product"),
       minWidth: 200,
     },
     {
       field: "new_product",
-      headerName: "New Product",
+      headerName: t("newProduct"),
       minWidth: 200,
       renderCell: (params: GridRenderCellParams) => {
         return params.value !== null &&
@@ -131,17 +134,17 @@ const Request = () => {
     },
     {
       field: "status_display",
-      headerName: "Status",
+      headerName: t("status"),
       minWidth: 150,
     },
     {
       field: "requested_on",
-      headerName: "Requested On",
+      headerName: t("requestedOn"),
       minWidth: 200,
     },
     {
       field: "actions",
-      headerName: "Actions",
+      headerName: t("actions"),
       minWidth: 150,
       renderCell: (params: GridRenderCellParams) => (
         <div>
@@ -149,7 +152,7 @@ const Request = () => {
             color="primary"
             onClick={(e) => handleView(e, Number(params.id))}
             aria-label="view"
-            title="View"
+            title={t("view")}
           >
             <VisibilityIcon />
           </IconButton>
@@ -157,7 +160,7 @@ const Request = () => {
             color="secondary"
             onClick={(e) => handleUpdate(e, Number(params.id))}
             aria-label="edit"
-            title="Edit"
+            title={t("edit")}
           >
             <EditIcon />
           </IconButton>
@@ -166,7 +169,7 @@ const Request = () => {
               color="error"
               onClick={() => handleDelete(Number(params.id))}
               aria-label="delete"
-              title="Delete"
+              title={t("delete")}
             >
               <DeleteIcon />
             </IconButton>
@@ -189,7 +192,7 @@ const Request = () => {
           }}
         >
           <Typography variant="h4" sx={{ mb: 3, textAlign: "center" }}>
-            Requests
+            {t("requests")}
           </Typography>
           <Paper elevation={3}>
             <DataGrid
@@ -202,6 +205,11 @@ const Request = () => {
               paginationMode="server"
               onPaginationModelChange={setPaginationModel}
               loading={loading}
+              localeText={
+                i18n.language === "en"
+                  ? enUS.components.MuiDataGrid.defaultProps.localeText
+                  : frFR.components.MuiDataGrid.defaultProps.localeText
+              }
               sx={{
                 ".MuiDataGrid-columnHeader": {
                   backgroundColor: "#cfcfcf",
@@ -220,20 +228,20 @@ const Request = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t("areYouSure")}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Do you really want to delete this record?
+            {t("doYouReally")}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>{t("cancel")}</Button>
           <Button
             onClick={(e) => handleConfirmDelete(e)}
             autoFocus
             color="error"
           >
-            Delete
+            {t("delete")}
           </Button>
         </DialogActions>
       </Dialog>

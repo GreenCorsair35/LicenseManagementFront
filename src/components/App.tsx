@@ -7,6 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import CreateRequest from "./CreateRequest";
 import ViewRequest from "./ViewRequest";
 import UpdateRequest from "./UpdateRequest";
+import "../i18n"; // Import the i18n configuration
 
 function Logout() {
   localStorage.clear();

@@ -1,0 +1,41 @@
+{
+  "lang": "French",
+  "appTitle": "DCRD - LICENSE REQUESTS",
+  "requestsList": "Requests list",
+  "requestALicense": "Request a licence",
+  "logout": "Logout",
+
+  "usageReason": "Usage Reason",
+  "product": "Product",
+  "newProduct": "New Product",
+  "status": "Status",
+  "requestedOn": "Requested On",
+  "actions": "Actions",
+  "view": "View",
+  "edit": "Edit",
+  "delete": "Delete",
+  "requests": "REQUESTS",
+  "areYouSure": "Are you sure ?",
+  "doYouReally": "Do you really want to delete this record ?",
+  "cancel": "Cancel",
+
+  "viewRequest": "View Request",
+  "orientation": "Orientation",
+  "back": "Back",
+
+  "requestUpdateImpossible": "You can't update a request that was treated (not in pending status) !",
+  "requestUpdateSuccess": "Request updated !",
+  "requestUpdateError": "Failed to update request !",
+  "requestCancelSuccess": "Request canceled !",
+  "requestCancelError": "Failed to cancel request !",
+  "requestCancelImpossible": "You can't cancel a request that is not ongoing !",
+  "updateRequest": "Update Request",
+  "update": "Update",
+  "doYouReallyCancel": "Do you really want to cancel this request ?",
+  "confirm": "Confirm",
+
+  "requestCreateSuccess": "Request created !",
+  "requestCreateError": "Failed to create request !",
+  "createRequest": "Create Request",
+  "submit": "Submit"
+}

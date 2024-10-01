@@ -20,6 +20,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 // Define the type for the result object
 interface ResultObject {
@@ -38,6 +39,8 @@ interface productObject {
 type AlertSeverity = "error" | "warning" | "info" | "success";
 
 const UpdateRequest = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const [usageReason, setUsageReason] = useState("");
@@ -71,7 +74,7 @@ const UpdateRequest = () => {
     api
       .get(`/licensemanagementapi/requests/${id}/`)
       .then((res) => {
-        setUsageReason(res.data.usage_reason ? res.data.usage_reason : "N/A");
+        setUsageReason(res.data.usage_reason ? res.data.usage_reason : "-");
         if (res.data.product) {
           api
             .get(`/licensemanagementapi/products/${res.data.product}/`)
@@ -80,7 +83,7 @@ const UpdateRequest = () => {
             })
             .catch((error) => alert(error));
         }
-        setNewProduct(res.data.new_product ? res.data.new_product : "N/A");
+        setNewProduct(res.data.new_product ? res.data.new_product : "-");
         setStatus(res.data.status ? res.data.status : "");
       })
       .catch((error) => alert(error));
@@ -93,8 +96,7 @@ const UpdateRequest = () => {
 
     if (status !== "P") {
       setResult({
-        failure:
-          "You can't update a request that was treated (not in pending status)!",
+        failure: t("requestUpdateImpossible"),
       });
       setSeverity("error");
       setShow(true);
@@ -108,10 +110,10 @@ const UpdateRequest = () => {
         })
         .then((res: any) => {
           if (res.status === 200 || res.status === 201) {
-            setResult({ successful: "Request updated!" });
+            setResult({ successful: t("requestUpdateSuccess") });
             setSeverity("success");
           } else {
-            setResult({ failure: "failed to update request!" });
+            setResult({ failure: t("requestUpdateError") });
             setSeverity("error");
           }
           setShow(true);
@@ -139,11 +141,11 @@ const UpdateRequest = () => {
         })
         .then((res: any) => {
           if (res.status === 200 || res.status === 201) {
-            setResult({ successful: "Request canceled!" });
+            setResult({ successful: t("requestCancelSuccess") });
             setSeverity("success");
             getRequest();
           } else {
-            setResult({ failure: "failed to cancel request!" });
+            setResult({ failure: t("requestCancelError") });
             setSeverity("error");
           }
           setShow(true);
@@ -158,7 +160,7 @@ const UpdateRequest = () => {
         });
     } else {
       setResult({
-        failure: "You can't cancel a request that is not ongoing!",
+        failure: t("requestCancelImpossible"),
       });
       setSeverity("error");
       setShow(true);
@@ -243,12 +245,12 @@ const UpdateRequest = () => {
         autoComplete="off"
       >
         <Typography variant="h4" sx={{ mb: 3 }}>
-          Update Request
+          {t("updateRequest")}
         </Typography>
         <Autocomplete
           value={product}
           disabled={status !== "P"}
-          onChange={(event, newValue) => setProduct(newValue)}
+          onChange={(_event, newValue) => setProduct(newValue)}
           open={open}
           onOpen={handleOpen}
           onClose={() => setOpen(false)}
@@ -261,7 +263,7 @@ const UpdateRequest = () => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Product"
+              label={t("product")}
               required
               InputProps={{
                 ...params.InputProps,
@@ -282,7 +284,7 @@ const UpdateRequest = () => {
           <TextField
             type="text"
             id="new_prodct"
-            label="New Product"
+            label={t("newProduct")}
             required
             onChange={(e) => setNewProduct(e.target.value)}
             value={newProduct}
@@ -293,7 +295,7 @@ const UpdateRequest = () => {
         <TextField
           type="text"
           id="usage_reason"
-          label="Usage Reason"
+          label={t("usageReason")}
           required
           onChange={(e) => setUsageReason(e.target.value)}
           value={usageReason}
@@ -318,7 +320,7 @@ const UpdateRequest = () => {
             onClick={(e) => goBack(e)}
             startIcon={<ArrowBackIosNew />}
           >
-            Back
+            {t("back")}
           </Button>
           <Box>
             {status === "O" && (
@@ -332,7 +334,7 @@ const UpdateRequest = () => {
                 }}
                 sx={{ mr: 1 }}
               >
-                Cancel
+                {t("cancel")}
               </Button>
             )}
             <Button
@@ -341,7 +343,7 @@ const UpdateRequest = () => {
               onClick={(e) => handleUpdate(e)}
               sx={{ ml: 1 }}
             >
-              Update
+              {t("update")}
             </Button>
           </Box>
         </Box>
@@ -351,16 +353,16 @@ const UpdateRequest = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{t("areYouSure")}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Do you really want to cancel this request?
+              {t("doYouReallyCancel")}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
+            <Button onClick={() => setOpenDialog(false)}>{t("cancel")}</Button>
             <Button onClick={(e) => handleCancel(e)} autoFocus color="error">
-              Confirm
+              {t("confirm")}
             </Button>
           </DialogActions>
         </Dialog>
