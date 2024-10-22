@@ -171,7 +171,7 @@ const CreateRequest = () => {
         </Typography>
         <Autocomplete
           value={product}
-          onChange={(event, newValue) => setProduct(newValue)}
+          onChange={(_event, newValue) => setProduct(newValue)}
           open={open}
           onOpen={handleOpen}
           onClose={() => setOpen(false)}

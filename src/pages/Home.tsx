@@ -1,6 +1,4 @@
 import Request from "../components/Request.tsx";
-import { useState, useEffect } from "react";
-import api from "../api";
 
 function Home() {
   return (

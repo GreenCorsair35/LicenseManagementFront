@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 //import { TextField, Button, CircularProgress, Box } from "@mui/material";
@@ -63,7 +63,7 @@ const Form = ({ route, method }: Input) => {
       } else {
         navigate("/login");
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.status === 401) {
         setForgotPassword(true);
       }
