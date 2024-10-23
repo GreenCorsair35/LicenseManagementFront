@@ -117,7 +117,7 @@ const CreateRequest = () => {
 
   const goBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    navigate(-1); // Go back to the previous page
+    navigate("/"); // Go back to the previous page
   };
 
   return (

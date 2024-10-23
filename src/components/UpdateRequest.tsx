@@ -172,7 +172,7 @@ const UpdateRequest = () => {
 
   const goBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    navigate(-1); // Go back to the previous page
+    navigate("/"); // Go back to the previous page
   };
 
   // Fetch products from server
